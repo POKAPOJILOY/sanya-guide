@@ -1,0 +1,274 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Pixeloid Sans не раздаётся Google Fonts API — локальные woff2 */
+@font-face {
+  font-family: "Pixeloid Sans";
+  src: url("/fonts/pixeloid-sans.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Pixeloid Sans";
+  src: url("/fonts/pixeloid-sans-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    max-width: 60ch;
+  }
+}
+
+@layer utilities {
+  .text-hero {
+    font-size: clamp(2.2rem, 1.4rem + 4vw, 3.8rem);
+    line-height: 1.15;
+  }
+
+  /* Акцентные узкие заголовки: розовая заливка + тонкая коричневая обводка */
+  .text-outline {
+    color: #f2689c;
+    -webkit-text-stroke: 1.5px #4a2c2a;
+    text-shadow: 0 3px 0 rgba(74, 44, 42, 0.18);
+  }
+
+  .text-outline-soft {
+    color: #ffdce8;
+    -webkit-text-stroke: 1.5px #4a2c2a;
+    text-shadow: 0 3px 0 rgba(74, 44, 42, 0.18);
+  }
+
+  /* Клетка vichy (подложки-бейджи) */
+  .pattern-vichy {
+    background-color: #ffffff;
+    background-image:
+      linear-gradient(rgba(214, 69, 96, 0.16) 50%, transparent 50%),
+      linear-gradient(90deg, rgba(214, 69, 96, 0.16) 50%, transparent 50%);
+    background-size: 14px 14px;
+  }
+
+  /* Горошек */
+  .pattern-dots {
+    background-color: #ffe9f1;
+    background-image: radial-gradient(#f2689c 1.6px, transparent 1.7px);
+    background-size: 16px 16px;
+  }
+
+  /* Полоска-скотч на углах фото/карточек */
+  .tape {
+    position: absolute;
+    width: 92px;
+    height: 26px;
+    background: rgba(255, 220, 232, 0.72);
+    border-left: 2px dashed rgba(214, 61, 124, 0.35);
+    border-right: 2px dashed rgba(214, 61, 124, 0.35);
+    box-shadow: 0 2px 6px rgba(214, 61, 124, 0.12);
+    backdrop-filter: blur(1px);
+  }
+
+  /* Фото-наклейка: белая рамка, мягкая розовая тень */
+  .photo-sticker {
+    background: #ffffff;
+    padding: 8px 8px 10px;
+    border-radius: 14px;
+    box-shadow:
+      0 10px 26px rgba(214, 61, 124, 0.18),
+      0 2px 0 rgba(74, 44, 42, 0.06);
+  }
+
+  /* «Стежок» — пунктирная обводка-вышивка */
+  .stitch {
+    outline: 2px dashed #d63d7c;
+    outline-offset: -8px;
+  }
+
+  .pixel-accent {
+    font-family: "Pixeloid Sans", monospace;
+    letter-spacing: 0.04em;
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--float-rotate, 0deg));
+  }
+  50% {
+    transform: translateY(-14px) rotate(var(--float-rotate, 0deg));
+  }
+}
+
+/* Пульсирующая точка города Санья на карте Китая */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.pulse-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse-ring 2s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse-ring {
+    animation: none;
+    display: none;
+  }
+}
+
+/* Пины Leaflet: белая SVG-иконка в розовом кружке */
+.place-pin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  border: 3px solid #ffffff;
+  background: #d63d7c;
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(214, 61, 124, 0.35);
+  cursor: pointer;
+  transition: transform 0.2s ease-out;
+}
+
+.place-pin:hover {
+  transform: scale(1.15);
+}
+
+.place-pin-active {
+  background: #f2689c;
+  transform: scale(1.15);
+}
+
+.place-pin-locked {
+  position: relative;
+  background: #d9a9bc;
+}
+
+.place-pin-lock {
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  border: 2px solid #ffffff;
+  background: #8a6b7a;
+  color: #ffffff;
+}
+
+/* Пунктирные авиамаршруты на карте Китая */
+@keyframes route-dash {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+
+.flight-route {
+  stroke-dasharray: 7 7;
+  animation: route-dash 1.6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flight-route {
+    animation: none;
+  }
+}
+
+
+/* Атрибуция Leaflet: одна строка, без плашки */
+.leaflet-control-attribution {
+  background: transparent !important;
+  font-size: 10px;
+  color: #c9a9b6;
+  padding: 2px 4px;
+}
+
+.leaflet-control-attribution a {
+  color: #c9a9b6;
+}
+
+/* Попап места */
+.leaflet-popup-content-wrapper {
+  border-radius: 18px;
+  border: 1px solid #ffe9f1;
+  box-shadow: 0 8px 30px rgba(214, 61, 124, 0.16);
+  color: #3d2233;
+}
+
+.leaflet-popup-tip {
+  box-shadow: 0 8px 30px rgba(214, 61, 124, 0.16);
+}
+
+/* Leaflet под нашими липкими плашками (header z-50, bar z-40) */
+.leaflet-pane {
+  z-index: 1;
+}
+
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 10;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Нативное появление при скролле (Chromium 115+) */
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    .reveal {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+  }
+
+  .float {
+    animation: float 5s ease-in-out infinite;
+  }
+
+  /* Фолбэк через IntersectionObserver (классы ставит Reveal) */
+  .reveal-io {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.6s ease-out,
+      transform 0.6s ease-out;
+  }
+
+  .reveal-io.reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
