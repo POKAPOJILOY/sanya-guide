@@ -179,14 +179,19 @@ export default async function AdminPage({
         {/* Города */}
         <section className="mt-12">
           <h2 className="font-display text-xl font-bold">Города</h2>
+          <p className="mt-1 text-sm text-muted">
+            «Открыт» — город появляется на карте и убирается из блока «Скоро»
+            на главной. «Скоро» — виден в блоке «Скоро». «Скрыт» — нигде не
+            виден.
+          </p>
           <div className="mt-4 space-y-2">
             {cities?.map((c) => (
               <div
                 key={c.id}
                 className="flex flex-wrap items-center gap-3 rounded-2xl border border-blush bg-card px-4 py-3 shadow-soft"
               >
-                <span className="inline-flex text-deep">
-                  <IconPin size={24} />
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-milk text-xl shadow-sm">
+                  {c.emoji || <IconPin size={20} />}
                 </span>
                 <div className="min-w-0 flex-1">
                   <p className="font-semibold">{c.name}</p>
@@ -201,7 +206,9 @@ export default async function AdminPage({
             className="mt-4 flex flex-wrap items-end gap-3 rounded-card border border-blush bg-card p-4 shadow-soft"
           >
             <div>
-              <label className="mb-1 block text-sm font-semibold">slug</label>
+              <label className="mb-1 block text-sm font-semibold">
+                Адрес латиницей
+              </label>
               <input
                 name="slug"
                 required

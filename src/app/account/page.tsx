@@ -74,7 +74,11 @@ export default async function AccountPage() {
 
         <div className="mt-8 rounded-card border border-blush bg-card p-6 shadow-soft">
           <h2 className="font-display text-lg font-bold">Твой доступ</h2>
-          {hasAll || cityAccess > 0 ? (
+          {profile.role === "admin" ? (
+            <p className="mt-2 text-sm text-muted">
+              Полный доступ ко всем городам и материалам — ты админ 💛
+            </p>
+          ) : hasAll || cityAccess > 0 ? (
             <p className="mt-2 text-sm text-muted">
               {hasAll
                 ? "Полный доступ ко всем городам"
