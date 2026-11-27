@@ -1,17 +1,16 @@
-import Badge from "@/components/ui/Badge";
-import Card from "@/components/ui/Card";
 import Footer from "@/components/ui/Footer";
 import Header from "@/components/ui/Header";
 import RoadHero from "@/components/road/RoadHero";
 import RoadItems from "@/components/road/RoadItems";
 import RoadTransition from "@/components/road/RoadTransition";
 import RoadCourse from "@/components/road/RoadCourse";
+import RoadCities from "@/components/road/RoadCities";
 import RoadMapShowcase from "@/components/road/RoadMapShowcase";
 import RoadPhotoDiary from "@/components/road/RoadPhotoDiary";
 import RoadCategoriesDiary from "@/components/road/RoadCategoriesDiary";
 import SabinaFlowerAvatar from "@/components/road/SabinaFlowerAvatar";
 import Reveal from "@/components/Reveal";
-import { IconCamera, IconCity } from "@/components/icons";
+import { IconCamera } from "@/components/icons";
 
 const courseSteps = [
   {
@@ -31,8 +30,6 @@ const courseSteps = [
     text: "Карта и чек-листы открываются с телефона, когда они действительно нужны.",
   },
 ];
-
-const cities = ["Пекин", "Шанхай", "Гуанчжоу", "Чэнду"];
 
 const faq = [
   {
@@ -119,30 +116,8 @@ export default function Home({
         {/* Пять живых фотографий из дорожного дневника Сабины. */}
         <RoadPhotoDiary />
 
-        {/* Скоро новые города */}
-        <section className="mx-auto max-w-6xl px-4 py-16 md:py-24">
-          <Reveal>
-            <h2 className="text-center font-display text-3xl font-bold md:text-4xl">
-              Скоро новые города
-            </h2>
-            <p className="mx-auto mt-3 text-center text-muted">
-              Покупатели курса получают все будущие города бесплатно.
-            </p>
-          </Reveal>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {cities.map((city) => (
-              <Reveal key={city}>
-                <Card className="flex h-full flex-col items-center gap-3 text-center">
-                  <span className="inline-flex text-deep">
-                    <IconCity size={40} />
-                  </span>
-                  <h3 className="font-display text-lg font-bold">{city}</h3>
-                  <Badge>Скоро</Badge>
-                </Card>
-              </Reveal>
-            ))}
-          </div>
-        </section>
+        {/* Будущие города — наклейки на дорожном чемодане */}
+        <RoadCities />
 
         {/* FAQ */}
         <section id="faq" className="bg-blush/40 py-16 md:py-24">
@@ -174,35 +149,63 @@ export default function Home({
         </section>
 
         {/* Автор */}
-        <section id="reviews" className="mx-auto max-w-4xl px-4 py-16 md:py-24">
-          <Reveal>
-            <Card className="flex flex-col items-center gap-6 text-center md:flex-row md:text-left">
-              <SabinaFlowerAvatar />
-              <div>
-                <h2 className="font-display text-2xl font-bold md:text-3xl">
-                  Привет! Я Сабина
-                </h2>
-                <p className="mt-3 text-muted">
-                  Была на Хайнане три раза и каждый день сижу в китайских
-                  соцсетях — слежу, куда ходят сами китайцы, а не туристы.
-                  Собрала всё в одном месте: где менять деньги, как платить
-                  телефоном и где то самое место из Сяохуншу. Без воды и
-                  рекламы — только то, что работает.
-                </p>
-                <p className="mt-3 text-xl font-semibold text-accent">
-                  обнимаю, до встречи на Хайнане!
-                </p>
-                <a
-                  href="https://www.instagram.com/saiiko_sama"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-3 inline-flex items-center gap-2 font-semibold text-deep transition-colors hover:text-accent"
-                >
-                  <IconCamera size={18} /> @saiiko_sama
-                </a>
+        <section id="reviews" className="relative overflow-hidden py-16 md:py-24">
+          <div className="mx-auto max-w-4xl px-4">
+            <Reveal>
+              <div className="relative rounded-card border border-blush bg-milk p-5 pt-10 shadow-lift md:p-8 md:pt-12">
+                <span
+                  aria-hidden="true"
+                  className="absolute -top-3 left-8 h-6 w-20 -rotate-6 bg-butter/70 shadow-sm"
+                />
+                <span
+                  aria-hidden="true"
+                  className="absolute -top-3 right-8 h-6 w-20 rotate-6 bg-pastel/90 shadow-sm"
+                />
+                <div className="flex flex-col items-center gap-6 rounded-[18px] border border-dashed border-choco/20 p-5 text-center md:flex-row md:gap-8 md:p-7 md:text-left">
+                  <div className="shrink-0">
+                    <SabinaFlowerAvatar />
+                  </div>
+                  <div>
+                    <h2 className="font-display text-2xl font-bold md:text-3xl">
+                      Привет! Я Сабина
+                    </h2>
+                    <p className="mt-3 text-muted">
+                      Была на Хайнане три раза и каждый день сижу в китайских
+                      соцсетях — слежу, куда ходят сами китайцы, а не туристы.
+                      Собрала всё в одном месте: где менять деньги, как платить
+                      телефоном и где то самое место из Сяохуншу. Без воды и
+                      рекламы — только то, что работает.
+                    </p>
+                    <div className="mt-4 flex flex-wrap justify-center gap-2 md:justify-start">
+                      {[
+                        "3 поездки на Хайнань",
+                        "каждый день в китайских соцсетях",
+                        "проверено на себе",
+                      ].map((fact) => (
+                        <span
+                          key={fact}
+                          className="rounded-full bg-blush px-3 py-1 text-xs font-semibold text-deep"
+                        >
+                          {fact}
+                        </span>
+                      ))}
+                    </div>
+                    <p className="mt-4 text-xl font-semibold text-accent">
+                      обнимаю, до встречи на Хайнане!
+                    </p>
+                    <a
+                      href="https://www.instagram.com/saiiko_sama"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 inline-flex items-center gap-2 font-semibold text-deep transition-colors hover:text-accent"
+                    >
+                      <IconCamera size={18} /> @saiiko_sama
+                    </a>
+                  </div>
+                </div>
               </div>
-            </Card>
-          </Reveal>
+            </Reveal>
+          </div>
         </section>
       </main>
       <Footer />

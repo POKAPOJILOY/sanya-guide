@@ -14,16 +14,19 @@ const advantages = [
     icon: IconPin,
     title: "Не просто точка на карте",
     text: "Русское и китайское названия, описание и подсказки из поездки.",
+    tint: "bg-pastel/70",
   },
   {
     icon: IconChecklist,
     title: "Всё нужное перед выходом",
     text: "Как добраться, сколько стоит и на что обратить внимание.",
+    tint: "bg-butterSoft",
   },
   {
     icon: IconPhone,
     title: "Удобно открыть уже на месте",
     text: "С телефона — когда нужно показать адрес или выбрать, куда поехать.",
+    tint: "bg-skySoft",
   },
 ];
 
@@ -134,10 +137,15 @@ export default function RoadMapShowcase() {
               Не подборка обезличенных меток, а места, которые Сабина проверила сама. Открывай карту с телефона и решай, куда поехать, прямо в поездке.
             </p>
 
-            <ul className="mt-8 space-y-5">
+            <ul className="mt-8 space-y-3.5">
               {advantages.map((item) => (
-                <li key={item.title} className="flex gap-3.5 border-t border-choco/15 pt-4">
-                  <item.icon size={22} className="mt-0.5 shrink-0 text-deep" />
+                <li
+                  key={item.title}
+                  className={`flex gap-3.5 rounded-2xl border border-white/70 p-4 shadow-soft ${item.tint}`}
+                >
+                  <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-milk text-deep shadow-sm">
+                    <item.icon size={20} />
+                  </span>
                   <div>
                     <h3 className="font-display text-base font-bold text-ink">{item.title}</h3>
                     <p className="mt-1 text-sm leading-relaxed text-choco/70">{item.text}</p>
