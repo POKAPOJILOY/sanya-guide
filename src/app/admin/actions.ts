@@ -28,6 +28,31 @@ const fail = (message: string) => {
   redirect(`/admin?err=${encodeURIComponent(text)}`);
 };
 
+// Загрузка фото места в Supabase Storage (вызывается из формы места).
+// Возвращает публичную ссылку на загруженный файл.
+export async function uploadPlacePhoto(formData: FormData) {
+  await requireAdmin();
+  const file = formData.get("file");
+  if (!(file instanceof File) || file.size === 0) {
+    return { error: "Файл не выбран" };
+  }
+  if (file.size > 10 * 1024 * 1024) {
+    return { error: "Файл больше 10 МБ — сожми фото и попробуй снова" };
+  }
+
+  const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+  const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+
+  const admin = createAdminClient();
+  const { error } = await admin.storage
+    .from("place-photos")
+    .upload(path, file, { contentType: file.type || "image/jpeg" });
+  if (error) return { error: error.message };
+
+  const { data } = admin.storage.from("place-photos").getPublicUrl(path);
+  return { url: data.publicUrl };
+}
+
 export async function addPlace(formData: FormData) {
   await requireAdmin();
   const admin = createAdminClient();

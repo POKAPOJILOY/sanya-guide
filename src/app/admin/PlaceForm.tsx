@@ -173,7 +173,7 @@ export default function PlaceForm({
       </div>
       <div>
         <label className="mb-1 block text-sm font-semibold">
-          Ссылка на фото (обложка страницы места)
+          Фото (обложка страницы места)
         </label>
         <PhotoUrlInput defaultValue={place?.photo_url} className={inputClass} />
       </div>
