@@ -9,7 +9,7 @@ export default function FreemiumBar() {
           <IconGift size={18} className="text-deep" /> Полная версия —{" "}
           <span className="text-deep">1 990 ₽</span> • доступ навсегда
         </p>
-        <Button href="#" size="sm">
+        <Button href="/register" size="sm">
           Разблокировать
         </Button>
       </div>

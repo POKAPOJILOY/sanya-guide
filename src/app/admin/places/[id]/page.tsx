@@ -3,7 +3,7 @@ import { redirect, notFound } from "next/navigation";
 import Button from "@/components/ui/Button";
 import Header from "@/components/ui/Header";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import PlaceForm from "../../PlaceForm";
 
 export const metadata: Metadata = {
@@ -17,6 +17,8 @@ export default async function EditPlacePage({
 }: {
   params: { id: string };
 }) {
+  if (!isSupabaseConfigured()) redirect("/login");
+
   const supabase = createClient();
   const {
     data: { user },

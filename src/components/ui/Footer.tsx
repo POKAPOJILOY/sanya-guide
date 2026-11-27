@@ -1,6 +1,4 @@
 const links = [
-  { href: "#", label: "Политика конфиденциальности" },
-  { href: "#", label: "Оферта" },
   { href: "https://www.instagram.com/saiiko_sama", label: "Instagram" },
 ];
 

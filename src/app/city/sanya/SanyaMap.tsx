@@ -21,11 +21,11 @@ import type { Place } from "@/data/places";
 const pinIcon = (place: Place) =>
   L.divIcon({
     className: "",
-    html: `<div class="place-pin place-pin-locked">${renderToStaticMarkup(
+    html: `<div class="place-pin ${place.isFree ? "" : "place-pin-locked"}">${renderToStaticMarkup(
       <CategoryIcon id={place.category} size={20} />
-    )}<span class="place-pin-lock">${renderToStaticMarkup(
+    )}${place.isFree ? "" : `<span class="place-pin-lock">${renderToStaticMarkup(
       <IconLock size={10} />
-    )}</span></div>`,
+    )}</span>`}</div>`,
     iconSize: [40, 40],
     iconAnchor: [20, 20],
   });
@@ -99,7 +99,7 @@ export default function SanyaMap({
     <MapContainer
       center={[18.26, 109.49]}
       zoom={12}
-      scrollWheelZoom
+      scrollWheelZoom={false}
       attributionControl={false}
       className="h-full w-full"
     >
@@ -151,7 +151,7 @@ export default function SanyaMap({
                   }}
                 >
                   Подробнее
-                  {renderToStaticMarkup(<IconArrowRight size={16} />)}
+                  <IconArrowRight size={16} />
                 </Link>
               </div>
             </div>

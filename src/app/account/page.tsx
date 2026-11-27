@@ -6,7 +6,7 @@ import { IconCrown, IconFlower } from "@/components/icons";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import Header from "@/components/ui/Header";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import { DEVICE_SESSION_COOKIE } from "@/lib/session";
 import LogoutButton from "./LogoutButton";
 
@@ -17,6 +17,8 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function AccountPage() {
+  if (!isSupabaseConfigured()) redirect("/login");
+
   const supabase = createClient();
   const {
     data: { user },
@@ -85,7 +87,7 @@ export default async function AccountPage() {
                 уроками и чек-листами.
               </p>
               <div className="mt-4">
-                <Button href="#" size="sm">
+                <Button href="/register" size="sm">
                   Купить доступ
                 </Button>
               </div>

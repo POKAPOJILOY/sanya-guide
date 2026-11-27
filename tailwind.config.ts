@@ -5,7 +5,8 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: "#FFF7F9",
+        bg: "#FFFBF3",
+        milk: "#FFFBF3",
         card: "#FFFFFF",
         accent: "#F2689C",
         deep: "#D63D7C",
@@ -16,6 +17,12 @@ const config: Config = {
         choco: "#4A2C2A",
         gold: "#E5C58B",
         strawberry: "#D64560",
+        butter: "#F2CE6B",
+        butterSoft: "#FCF0D4",
+        sky: "#7FB3E0",
+        skySoft: "#E1EEF9",
+        pistachio: "#A9CB8F",
+        pistachioSoft: "#EBF3E0",
       },
       fontFamily: {
         display: ["var(--font-display)", "sans-serif"],

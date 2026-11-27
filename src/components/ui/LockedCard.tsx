@@ -25,7 +25,7 @@ export default function LockedCard({
         <p className="text-sm font-semibold text-muted">
           Доступно в полной версии
         </p>
-        <Button href="#" size="sm">
+        <Button href="/register" size="sm">
           Разблокировать
         </Button>
       </div>

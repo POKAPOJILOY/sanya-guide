@@ -96,6 +96,7 @@ export default async function PlacePage({ params }: Params) {
         <div className="mt-6">
           <div className="flex flex-wrap items-center gap-2">
             <Badge>{category.label}</Badge>
+            {place.isFree && <Badge className="bg-pistachioSoft">Открыто бесплатно</Badge>}
             {place.subcategory && (
               <Badge className="bg-blush">
                 {FOOD_SUBCATEGORIES.find((s) => s.id === place.subcategory)

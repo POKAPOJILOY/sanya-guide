@@ -104,8 +104,8 @@ export type PlacePage = {
   unlocked: boolean;
 };
 
-// Доступ к полной версии: покупка курса (все города или конкретный) или админ.
-// Флаг is_free — только витрина админки, доступа не даёт.
+// Полный платный доступ: покупка курса (все города или конкретный) или админ.
+// Бесплатные места открываются отдельно по is_free, без обязательной покупки.
 async function checkAccess(
   supabase: ReturnType<typeof createClient>,
   cityId: string | null
@@ -141,7 +141,9 @@ export async function getPlaceBySlug(slug: string): Promise<PlacePage | null> {
     const { data: pubs } = await supabase.from("public_places").select("*");
     const row = pubs?.find((r) => placeSlug(r) === slug);
     if (!row) {
-      const unlocked = await checkAccess(supabase, null);
+      const unlocked = fb?.isFree
+        ? true
+        : await checkAccess(supabase, null);
       return fb
         ? {
             place: fb,
@@ -170,7 +172,8 @@ export async function getPlaceBySlug(slug: string): Promise<PlacePage | null> {
       photoUrl: row.photo_url ?? "",
     };
 
-    const unlocked = await checkAccess(supabase, row.city_id);
+    const isFree = Boolean(row.is_free);
+    const unlocked = isFree || (await checkAccess(supabase, row.city_id));
 
     // полные поля читаем из places только при купленном доступе
     let full: {
@@ -209,9 +212,10 @@ export async function getPlaceBySlug(slug: string): Promise<PlacePage | null> {
 
     return {
       place,
-      fullDescription: full?.full_description ?? "",
+      fullDescription:
+        full?.full_description ?? (isFree ? row.short_description : ""),
       citySlug: city?.slug ?? "sanya",
-      unlocked: unlocked && full !== null,
+      unlocked: unlocked && (isFree || full !== null),
     };
   } catch {
     return fb
@@ -219,7 +223,7 @@ export async function getPlaceBySlug(slug: string): Promise<PlacePage | null> {
           place: fb,
           fullDescription: fb.shortDescription,
           citySlug: "sanya",
-          unlocked: false,
+          unlocked: fb.isFree,
         }
       : null;
   }

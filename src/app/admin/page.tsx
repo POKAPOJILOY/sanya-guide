@@ -15,7 +15,7 @@ import {
 } from "@/components/icons";
 import { categories, type CategoryId } from "@/data/places";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import { DEVICE_SESSION_COOKIE } from "@/lib/session";
 import { placeSlug } from "@/lib/slug";
 import { addCity, togglePlaceFree } from "./actions";
@@ -49,6 +49,8 @@ export default async function AdminPage({
 }: {
   searchParams: { ok?: string; err?: string };
 }) {
+  if (!isSupabaseConfigured()) redirect("/login");
+
   const supabase = createClient();
   const {
     data: { user },

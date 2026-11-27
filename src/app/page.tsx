@@ -1,62 +1,34 @@
-import Image from "next/image";
 import Badge from "@/components/ui/Badge";
-import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Footer from "@/components/ui/Footer";
 import Header from "@/components/ui/Header";
-import LockedCard from "@/components/ui/LockedCard";
-import PandaHero from "@/components/panda/PandaHero";
+import RoadHero from "@/components/road/RoadHero";
+import RoadItems from "@/components/road/RoadItems";
+import RoadTransition from "@/components/road/RoadTransition";
+import RoadCourse from "@/components/road/RoadCourse";
+import RoadMapShowcase from "@/components/road/RoadMapShowcase";
+import RoadPhotoDiary from "@/components/road/RoadPhotoDiary";
+import RoadCategoriesDiary from "@/components/road/RoadCategoriesDiary";
+import SabinaFlowerAvatar from "@/components/road/SabinaFlowerAvatar";
 import Reveal from "@/components/Reveal";
-import { categories } from "@/data/places";
-import {
-  IconBeach,
-  IconCamera,
-  IconChecklist,
-  IconCity,
-  IconFlower,
-  IconIsland,
-  IconMap,
-  IconPalm,
-  IconPhone,
-  IconPin,
-  IconWave,
-  CategoryIcon,
-  type IconProps,
-} from "@/components/icons";
+import { IconCamera, IconCity } from "@/components/icons";
 
-const inside: { icon: (p: IconProps) => React.ReactNode; title: string; text: string }[] = [
+const courseSteps = [
   {
-    icon: IconMap,
-    title: "Интерактивная карта",
-    text: "Все места на одной карте: пляжи, кафе, рынки и аптеки. Открывается с телефона прямо в поездке.",
+    title: "Подготовка без хаоса",
+    text: "Что установить, оформить и сохранить до вылета — в правильном порядке.",
   },
   {
-    icon: IconPhone,
-    title: "Приложения и оплата",
-    text: "Пошагово настраиваем Alipay и WeChat, VPN и карты — чтобы всё работало ещё до вылета.",
+    title: "Оплата и связь",
+    text: "Alipay, WeChat, VPN и карты с понятными скриншотами на русском.",
   },
   {
-    icon: IconPin,
-    title: "Места от локалов",
-    text: "Не туристические ловушки, а места, которые любят сами китайцы: еда, массажи, секретные пляжи.",
+    title: "Проверенные места",
+    text: "Пляжи, локальные кафе, рынки и фотолокации с адресами на китайском.",
   },
   {
-    icon: IconChecklist,
-    title: "Чек-листы",
-    text: "Что взять, что скачать, что распечатать. Готовые списки — просто отмечай галочки.",
-  },
-];
-
-const places: { icon: (p: IconProps) => React.ReactNode; name: string; text: string }[] = [
-  {
-    icon: IconBeach,
-    name: "Пляж Дадунхай",
-    text: "Городской пляж с пальмами, кафе у воды и самым удобным районом для жизни.",
-  },
-  {
-    icon: IconIsland,
-    name: "Остров Вузичжоу",
-    text: "Бирюзовая вода и белый песок — «Мальдивы Китая» в получасе от города.",
+    title: "Помощь прямо в поездке",
+    text: "Карта и чек-листы открываются с телефона, когда они действительно нужны.",
   },
 ];
 
@@ -78,56 +50,6 @@ const faq = [
   {
     q: "Будут ли другие города?",
     a: "Да! Готовим Пекин, Шанхай, Гуанчжоу и Чэнду. Все покупатели курса получат новые города бесплатно.",
-  },
-];
-
-const heroPhotos: {
-  src: string;
-  width: number;
-  height: number;
-  alt: string;
-  className: string;
-  tape: string;
-}[] = [
-  {
-    src: "/images/photos/sea-sunset.webp",
-    width: 800,
-    height: 600,
-    alt: "Закат над морем на Хайнане",
-    className: "left-[1%] top-[6%] hidden w-40 -rotate-3 md:block md:w-56",
-    tape: "-top-3 left-1/2 -translate-x-1/2 -rotate-6",
-  },
-  {
-    src: "/images/photos/coconut-beach.webp",
-    width: 600,
-    height: 800,
-    alt: "Кокос с гибискусом на пляже",
-    className: "bottom-[10%] left-[6%] hidden w-36 rotate-2 md:block lg:w-44",
-    tape: "-top-3 left-1/2 -translate-x-1/2 rotate-3",
-  },
-  {
-    src: "/images/photos/itasha-hotel.webp",
-    width: 600,
-    height: 800,
-    alt: "Иташа-авто у розового отеля",
-    className: "right-[2%] top-[4%] hidden w-36 rotate-3 md:block md:w-48",
-    tape: "-top-3 left-1/2 -translate-x-1/2 rotate-6",
-  },
-  {
-    src: "/images/photos/cafe-cakes.webp",
-    width: 600,
-    height: 800,
-    alt: "Витрина кафе с тортами",
-    className: "bottom-[16%] right-[30%] hidden w-36 -rotate-2 lg:block xl:w-44",
-    tape: "-top-3 left-1/2 -translate-x-1/2 -rotate-3",
-  },
-  {
-    src: "/images/photos/maneki-neko.webp",
-    width: 600,
-    height: 800,
-    alt: "Полки с манэки-нэко",
-    className: "bottom-[6%] right-[2%] hidden w-32 rotate-2 md:block lg:w-40",
-    tape: "-top-3 left-1/2 -translate-x-1/2 -rotate-6",
   },
 ];
 
@@ -160,7 +82,7 @@ export default function Home({
 }: {
   searchParams: { font?: string };
 }) {
-  // временно для показа Егору: ?font=ptn переключает узкий заголовок на PT Sans Narrow
+  // Временный параметр только для сравнения уже одобренного узкого шрифта.
   const narrowClass =
     searchParams.font === "ptn" ? "font-display-alt" : "font-narrow";
 
@@ -176,181 +98,26 @@ export default function Home({
       />
       <Header />
       <main>
-        {/* Hero */}
-        <section className="relative overflow-hidden bg-gradient-to-b from-pastel to-bg pb-28">
-          {/* фото-коллаж Сабины: наклейки со скотчем */}
-          {heroPhotos.map((p) => (
-            <div
-              key={p.src}
-              aria-hidden="true"
-              className={`photo-sticker absolute z-0 select-none ${p.className}`}
-            >
-              <span className={`tape ${p.tape}`} />
-              <Image
-                src={p.src}
-                width={p.width}
-                height={p.height}
-                alt={p.alt}
-                className="h-auto w-full rounded-lg object-cover"
-                priority={false}
-              />
-            </div>
-          ))}
+        {/* Первый экран: дорожное кино с Бао — текст, цена и кнопки видны сразу */}
+        <RoadHero narrowClass={narrowClass} />
 
-          <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-10 px-4 pt-16 md:pt-24 lg:grid-cols-2">
-            <div className="text-center lg:text-left">
-              <Badge>
-                <IconPalm size={14} /> Курс-путеводитель по Хайнаню
-              </Badge>
-              <h1
-                className={`text-hero mt-6 font-bold ${narrowClass} text-outline`}
-              >
-                Хайнань — курс-путеводитель
-              </h1>
-              <p className="mx-auto mt-5 text-lg text-muted lg:mx-0">
-                Интерактивная карта и интересные локации, а также: приложения,
-                Alipay, WeChat, бронирование отелей и билетов, доставка, карты —
-                всё для поездки в одном месте.
-              </p>
-              <p className="mt-3 text-xl font-semibold text-accent md:text-2xl">
-                ваш гид по локальным аутентичным местам
-              </p>
-              <div className="mt-9 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
-                <Button href="#">
-                  Купить доступ —{" "}
-                  <span className="pixel-accent">1 990 ₽</span>
-                </Button>
-                <Button href="/map" variant="secondary">
-                  Смотреть карту
-                </Button>
-              </div>
-              <div className="mt-10 inline-flex max-w-full items-center justify-center gap-1.5 rounded-full border border-blush bg-card px-6 py-3 text-sm font-semibold text-ink shadow-soft">
-                <IconMap size={16} className="text-deep" /> Карта, гайды и
-                чек-листы. Доступ навсегда.
-              </div>
-            </div>
+        {/* Связка кино → чемодан: открытие и появление предметов управляются прокруткой */}
+        <RoadTransition />
 
-            <PandaHero />
-          </div>
+        {/* Интерактивные дорожные предметы из чемодана */}
+        <RoadItems />
 
-          {/* волнистая граница в цвет следующей секции */}
-          <svg
-            aria-hidden="true"
-            viewBox="0 0 1440 80"
-            preserveAspectRatio="none"
-            className="absolute bottom-0 left-0 z-[5] h-14 w-full text-bg md:h-20"
-          >
-            <path
-              d="M0,44 C240,84 480,4 720,44 C960,84 1200,4 1440,44 L1440,80 L0,80 Z"
-              fill="currentColor"
-            />
-          </svg>
-        </section>
+        {/* Что внутри курса: согласованный разворот дорожного журнала */}
+        <RoadCourse steps={courseSteps} />
 
-        {/* Что внутри */}
-        <section id="course" className="mx-auto max-w-6xl px-4 py-16 md:py-24">
-          <Reveal>
-            <h2 className="text-center font-display text-3xl font-bold md:text-4xl">
-              Что внутри курса
-            </h2>
-            <p className="mx-auto mt-3 text-center text-muted">
-              Всё, чтобы поездка прошла легко — от посадки в самолёт до
-              последнего кокоса на пляже.
-            </p>
-          </Reveal>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {inside.map((item) => (
-              <Reveal key={item.title}>
-                <Card className="h-full text-center">
-                  <span className="inline-flex text-deep">
-                    <item.icon size={40} />
-                  </span>
-                  <h3 className="mt-4 font-display text-lg font-bold">
-                    {item.title}
-                  </h3>
-                  <p className="mx-auto mt-2 text-sm text-muted">{item.text}</p>
-                </Card>
-              </Reveal>
-            ))}
-          </div>
-        </section>
+        {/* Одобренный интерактивный разворот категорий с фотографиями Сабины. */}
+        <RoadCategoriesDiary />
 
-        {/* Категории мест */}
-        <section id="categories" className="mx-auto max-w-6xl px-4 pb-16 md:pb-24">
-          <Reveal>
-            <h2 className="text-center font-display text-3xl font-bold md:text-4xl">
-              Что есть на карте
-            </h2>
-            <p className="mx-auto mt-3 text-center text-muted">
-              Семь категорий мест — от пляжей до ночных рынков.
-            </p>
-          </Reveal>
-          <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-            {categories.map((c, i) => (
-              <Reveal key={c.id}>
-                <div
-                  className={`stitch relative flex h-full flex-col items-center gap-3 rounded-card border border-blush bg-card p-5 text-center shadow-soft transition-transform duration-200 hover:-translate-y-1 ${
-                    i % 2 === 0 ? "-rotate-1" : "rotate-1"
-                  }`}
-                >
-                  <span className="pattern-vichy inline-flex rounded-full p-4 text-deep">
-                    <CategoryIcon id={c.id} size={32} />
-                  </span>
-                  <h3 className={`${narrowClass} text-lg font-bold text-ink`}>
-                    {c.label}
-                  </h3>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </section>
+        {/* Одобренный показ карты с бесплатным примером и платным teaser. */}
+        <RoadMapShowcase />
 
-        {/* Превью карты */}
-        <section id="map" className="bg-blush/40 py-16 md:py-24">
-          <div className="mx-auto max-w-6xl px-4">
-            <Reveal>
-              <h2 className="text-center font-display text-3xl font-bold md:text-4xl">
-                Загляни на карту
-              </h2>
-              <p className="mx-auto mt-3 text-center text-muted">
-                Пара мест для примера — остальные ждут в полной версии.
-              </p>
-            </Reveal>
-            <div className="mt-10 grid gap-6 md:grid-cols-3">
-              {places.map((place) => (
-                <Reveal key={place.name}>
-                  <Card className="h-full p-0">
-                    <div className="flex h-40 items-center justify-center rounded-t-card bg-gradient-to-br from-pastel to-blush text-deep">
-                      <place.icon size={56} />
-                    </div>
-                    <div className="p-6">
-                      <h3 className="font-display text-lg font-bold">
-                        {place.name}
-                      </h3>
-                      <p className="mt-2 text-sm text-muted">{place.text}</p>
-                    </div>
-                  </Card>
-                </Reveal>
-              ))}
-              <Reveal>
-                <LockedCard title="Секретная бухта">
-                  <div className="flex h-40 items-center justify-center rounded-t-card bg-gradient-to-br from-pastel to-blush text-deep">
-                    <IconWave size={56} />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="font-display text-lg font-bold">
-                      Секретная бухта
-                    </h3>
-                    <p className="mt-2 text-sm text-muted">
-                      Тихое место без туристов: как добраться, когда приходить и
-                      где сделать лучшие фото на закате.
-                    </p>
-                  </div>
-                </LockedCard>
-              </Reveal>
-            </div>
-          </div>
-        </section>
+        {/* Пять живых фотографий из дорожного дневника Сабины. */}
+        <RoadPhotoDiary />
 
         {/* Скоро новые города */}
         <section className="mx-auto max-w-6xl px-4 py-16 md:py-24">
@@ -410,9 +177,7 @@ export default function Home({
         <section id="reviews" className="mx-auto max-w-4xl px-4 py-16 md:py-24">
           <Reveal>
             <Card className="flex flex-col items-center gap-6 text-center md:flex-row md:text-left">
-              <div className="flex h-32 w-32 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-accent to-pastel text-white shadow-soft">
-                <IconFlower size={56} />
-              </div>
+              <SabinaFlowerAvatar />
               <div>
                 <h2 className="font-display text-2xl font-bold md:text-3xl">
                   Привет! Я Сабина
