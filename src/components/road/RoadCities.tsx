@@ -1,48 +1,37 @@
 import Reveal from "@/components/Reveal";
-import {
-  IconCity,
-  IconFood,
-  IconGift,
-  IconLeaf,
-  IconTemple,
-} from "@/components/icons";
+import { IconGift } from "@/components/icons";
+import { getCities } from "@/lib/data";
 
-const upcomingCities = [
-  {
-    name: "Пекин",
-    caption: "столица и Великая стена",
-    icon: IconTemple,
-    bg: "bg-pastel",
-    rotate: "-rotate-2",
-    tape: "bg-butter/70",
-  },
-  {
-    name: "Шанхай",
-    caption: "неон и набережная Вайтань",
-    icon: IconCity,
-    bg: "bg-skySoft",
-    rotate: "rotate-2",
-    tape: "bg-pastel/80",
-  },
-  {
-    name: "Гуанчжоу",
-    caption: "столица кантонской кухни",
-    icon: IconFood,
-    bg: "bg-butterSoft",
-    rotate: "rotate-1",
-    tape: "bg-sky/60",
-  },
-  {
-    name: "Чэнду",
-    caption: "панды и бамбуковые рощи",
-    icon: IconLeaf,
-    bg: "bg-pistachioSoft",
-    rotate: "-rotate-1",
-    tape: "bg-pastel/80",
-  },
+// Подписи к городам; если для нового города подписи нет — покажем общую фразу.
+const captions: Record<string, string> = {
+  beijing: "столица и Великая стена",
+  shanghai: "неон и набережная Вайтань",
+  guangzhou: "столица кантонской кухни",
+  shenzhen: "город технопарков и парков",
+  chengdu: "панды и бамбуковые рощи",
+  chongqing: "горный мегаполис и хого",
+  hangzhou: "чай и озеро Сиху",
+  xian: "терракотовая армия",
+  guilin: "карстовые горы и реки",
+  harbin: "ледяной город и русский след",
+};
+
+// Четыре стиля наклеек — чередуются по кругу, дизайн не меняется.
+const stickerStyles = [
+  { bg: "bg-pastel", rotate: "-rotate-2", tape: "bg-butter/70" },
+  { bg: "bg-skySoft", rotate: "rotate-2", tape: "bg-pastel/80" },
+  { bg: "bg-butterSoft", rotate: "rotate-1", tape: "bg-sky/60" },
+  { bg: "bg-pistachioSoft", rotate: "-rotate-1", tape: "bg-pastel/80" },
 ];
 
-export default function RoadCities() {
+export default async function RoadCities() {
+  const cities = await getCities();
+  const upcomingCities = cities
+    .filter((city) => city.status === "coming_soon")
+    .slice(0, 4);
+
+  if (!upcomingCities.length) return null;
+
   return (
     <section
       id="cities"
@@ -67,32 +56,35 @@ export default function RoadCities() {
         </Reveal>
 
         <div className="mt-10 grid grid-cols-2 gap-4 sm:gap-6 md:mt-14 lg:grid-cols-4">
-          {upcomingCities.map((city) => (
-            <Reveal key={city.name}>
-              <figure
-                className={`relative h-full rounded-[10px] p-3 pb-4 shadow-[0_14px_30px_rgba(74,44,42,.12)] transition-transform duration-300 ease-out hover:rotate-0 motion-reduce:transition-none ${city.bg} ${city.rotate}`}
-              >
-                <span
-                  aria-hidden="true"
-                  className={`absolute -top-2.5 left-1/2 z-10 h-5 w-14 -translate-x-1/2 rotate-1 shadow-sm ${city.tape}`}
-                />
-                <div className="flex h-full flex-col items-center gap-2.5 rounded-[7px] border border-dashed border-choco/20 px-3 pb-4 pt-6 text-center">
-                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-milk text-deep shadow-sm">
-                    <city.icon size={24} />
-                  </span>
-                  <h3 className="font-display text-lg font-bold leading-tight text-ink md:text-xl">
-                    {city.name}
-                  </h3>
-                  <p className="text-xs leading-snug text-choco/65">
-                    {city.caption}
-                  </p>
-                  <span className="mt-auto rounded-full bg-milk/85 px-3 py-1 font-narrow text-[10px] font-bold uppercase tracking-[0.14em] text-deep shadow-sm">
-                    Скоро
-                  </span>
-                </div>
-              </figure>
-            </Reveal>
-          ))}
+          {upcomingCities.map((city, index) => {
+            const style = stickerStyles[index % stickerStyles.length];
+            return (
+              <Reveal key={city.slug}>
+                <figure
+                  className={`relative h-full rounded-[10px] p-3 pb-4 shadow-[0_14px_30px_rgba(74,44,42,.12)] transition-transform duration-300 ease-out hover:rotate-0 motion-reduce:transition-none ${style.bg} ${style.rotate}`}
+                >
+                  <span
+                    aria-hidden="true"
+                    className={`absolute -top-2.5 left-1/2 z-10 h-5 w-14 -translate-x-1/2 rotate-1 shadow-sm ${style.tape}`}
+                  />
+                  <div className="flex h-full flex-col items-center gap-2.5 rounded-[7px] border border-dashed border-choco/20 px-3 pb-4 pt-6 text-center">
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-milk text-2xl shadow-sm">
+                      {city.emoji}
+                    </span>
+                    <h3 className="font-display text-lg font-bold leading-tight text-ink md:text-xl">
+                      {city.name}
+                    </h3>
+                    <p className="text-xs leading-snug text-choco/65">
+                      {captions[city.slug] ?? "новое направление курса"}
+                    </p>
+                    <span className="mt-auto rounded-full bg-milk/85 px-3 py-1 font-narrow text-[10px] font-bold uppercase tracking-[0.14em] text-deep shadow-sm">
+                      Скоро
+                    </span>
+                  </div>
+                </figure>
+              </Reveal>
+            );
+          })}
         </div>
 
         <Reveal>
