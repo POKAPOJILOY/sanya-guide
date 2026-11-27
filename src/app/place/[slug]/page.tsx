@@ -130,7 +130,39 @@ export default async function PlacePage({ params }: Params) {
                   </>
                 )}
               </p>
+              {place.amapUrl && (
+                <div className="mt-4">
+                  <a
+                    href={place.amapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border-2 border-pastel bg-card px-4 py-2 text-sm font-semibold text-deep shadow-soft transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-accent hover:shadow-lift"
+                  >
+                    <IconPin size={16} /> Открыть в Amap (高德地图)
+                  </a>
+                </div>
+              )}
             </section>
+
+            {(place.workingHours || place.address) && (
+              <section className="mt-6 rounded-card border border-blush bg-card p-6 shadow-soft">
+                <h2 className="font-display text-xl font-bold">
+                  Время работы и адрес
+                </h2>
+                {place.workingHours && (
+                  <p className="mt-3 text-muted">
+                    <span className="font-semibold text-ink">Время работы:</span>{" "}
+                    {place.workingHours}
+                  </p>
+                )}
+                {place.address && (
+                  <p className="mt-2 text-muted">
+                    <span className="font-semibold text-ink">Адрес:</span>{" "}
+                    {place.address}
+                  </p>
+                )}
+              </section>
+            )}
 
             <section className="mt-6 rounded-card border border-blush bg-card p-6 shadow-soft">
               <h2 className="font-display text-xl font-bold">Цены</h2>

@@ -17,6 +17,9 @@ type PlaceRow = {
   full_description: string;
   getting_there?: string;
   prices?: string;
+  working_hours?: string;
+  address?: string;
+  amap_url?: string;
   photo_url?: string;
   sort: number;
 };
@@ -168,6 +171,39 @@ export default function PlaceForm({
           rows={3}
           defaultValue={place?.prices}
           placeholder="Вход 129 юаней, онлайн со скидкой 98…"
+          className={inputClass}
+        />
+      </div>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div>
+          <label className="mb-1 block text-sm font-semibold">
+            Время работы
+          </label>
+          <input
+            name="working_hours"
+            defaultValue={place?.working_hours}
+            placeholder="Ежедневно 9:00–18:00"
+            className={inputClass}
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-sm font-semibold">Адрес</label>
+          <input
+            name="address"
+            defaultValue={place?.address}
+            placeholder="Район Дадунхай, ул. Юйюлу"
+            className={inputClass}
+          />
+        </div>
+      </div>
+      <div>
+        <label className="mb-1 block text-sm font-semibold">
+          Ссылка на Amap (карточка места в Amap — кнопка «Поделиться»)
+        </label>
+        <input
+          name="amap_url"
+          defaultValue={place?.amap_url}
+          placeholder="https://uri.amap.com/…"
           className={inputClass}
         />
       </div>

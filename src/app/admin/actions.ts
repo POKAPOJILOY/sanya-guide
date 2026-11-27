@@ -70,6 +70,9 @@ export async function addPlace(formData: FormData) {
     full_description: String(formData.get("full_description") ?? ""),
     getting_there: String(formData.get("getting_there") ?? ""),
     prices: String(formData.get("prices") ?? ""),
+    working_hours: String(formData.get("working_hours") ?? ""),
+    address: String(formData.get("address") ?? ""),
+    amap_url: String(formData.get("amap_url") ?? ""),
     photo_url: String(formData.get("photo_url") ?? ""),
     sort: Number(formData.get("sort") || 0),
   });
@@ -97,6 +100,9 @@ export async function updatePlace(formData: FormData) {
       full_description: String(formData.get("full_description") ?? ""),
       getting_there: String(formData.get("getting_there") ?? ""),
       prices: String(formData.get("prices") ?? ""),
+      working_hours: String(formData.get("working_hours") ?? ""),
+      address: String(formData.get("address") ?? ""),
+      amap_url: String(formData.get("amap_url") ?? ""),
       photo_url: String(formData.get("photo_url") ?? ""),
       sort: Number(formData.get("sort") || 0),
     })

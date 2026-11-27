@@ -70,6 +70,9 @@ export async function getPlaces(citySlug: string): Promise<Place[]> {
       gettingThere: "",
       prices: "",
       photoUrl: p.photo_url ?? "",
+      workingHours: "",
+      address: "",
+      amapUrl: "",
     }));
   } catch {
     return fallbackPlaces;
@@ -170,6 +173,9 @@ export async function getPlaceBySlug(slug: string): Promise<PlacePage | null> {
       gettingThere: "",
       prices: "",
       photoUrl: row.photo_url ?? "",
+      workingHours: "",
+      address: "",
+      amapUrl: "",
     };
 
     const isFree = Boolean(row.is_free);
@@ -180,12 +186,15 @@ export async function getPlaceBySlug(slug: string): Promise<PlacePage | null> {
       full_description: string;
       getting_there?: string;
       prices?: string;
+      working_hours?: string;
+      address?: string;
+      amap_url?: string;
     } | null = null;
 
     if (unlocked) {
       const res = await supabase
         .from("places")
-        .select("full_description, getting_there, prices")
+        .select("full_description, getting_there, prices, working_hours, address, amap_url")
         .eq("id", row.id)
         .maybeSingle();
 
@@ -209,6 +218,9 @@ export async function getPlaceBySlug(slug: string): Promise<PlacePage | null> {
 
     place.gettingThere = full?.getting_there ?? "";
     place.prices = full?.prices ?? "";
+    place.workingHours = full?.working_hours ?? "";
+    place.address = full?.address ?? "";
+    place.amapUrl = full?.amap_url ?? "";
 
     return {
       place,
