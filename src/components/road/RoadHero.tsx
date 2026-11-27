@@ -256,7 +256,7 @@ export default function RoadHero({ narrowClass }: { narrowClass: string }) {
           </p>
           <div className="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
             <span className="pixel-accent text-2xl font-bold text-deep md:text-3xl">
-              1 990 ₽
+              599 ₽
             </span>
             <span className="text-xs font-semibold text-choco/70 md:text-sm">
               доступ навсегда

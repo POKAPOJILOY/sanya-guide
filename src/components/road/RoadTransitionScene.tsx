@@ -410,7 +410,7 @@ function Ticket() {
         context.fillStyle = colors.choco;
         context.font = "700 32px Arial, sans-serif";
         context.fillText("SABINA", 330, 468);
-        context.fillText("BAO 1990", 630, 468);
+        context.fillText("BAO 599", 630, 468);
 
         // Детерминированный штрихкод, без случайного рисунка при перерендере.
         let barX = 922;

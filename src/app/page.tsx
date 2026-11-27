@@ -58,7 +58,7 @@ const productLd = {
     "Интерактивная карта и честные гайды по Хайнаню: приложения, Alipay, WeChat и места, которые любят сами китайцы.",
   offers: {
     "@type": "Offer",
-    price: "1990",
+    price: "599",
     priceCurrency: "RUB",
     availability: "https://schema.org/InStock",
   },

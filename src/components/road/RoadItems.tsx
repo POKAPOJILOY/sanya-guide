@@ -235,7 +235,7 @@ function TicketScene() {
             </div>
             <div className="mt-5 grid grid-cols-2 gap-3 border-t border-dashed border-choco/20 pt-3 text-[8px] sm:text-[10px]">
               <div><p className="text-choco/50">ПАССАЖИР</p><p className="mt-1 font-bold text-choco">SABINA</p></div>
-              <div><p className="text-choco/50">РЕЙС</p><p className="mt-1 font-bold text-choco">BAO 1990</p></div>
+              <div><p className="text-choco/50">РЕЙС</p><p className="mt-1 font-bold text-choco">BAO 599</p></div>
             </div>
           </div>
           <div className="flex flex-col items-center justify-between border-l border-dashed border-choco/25 bg-pastel/45 px-2 py-5">
