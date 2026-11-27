@@ -31,7 +31,7 @@ export default function CityStatusSelect({
       onChange={(e) =>
         startTransition(() => setCityStatus(id, e.target.value))
       }
-      className={`rounded-full border-2 px-3 py-1 text-sm font-bold outline-none transition-colors focus:border-accent disabled:opacity-50 ${
+      className={`min-h-[44px] w-full rounded-2xl border-2 px-4 py-2 text-sm font-bold outline-none transition-colors focus:border-accent disabled:opacity-50 sm:w-auto ${
         statusStyles[status] ?? statusStyles.draft
       }`}
     >

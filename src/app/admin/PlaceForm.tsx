@@ -36,7 +36,7 @@ export default function PlaceForm({
   return (
     <form
       action={action}
-      className="space-y-3 rounded-card border border-blush bg-card p-6 shadow-soft"
+      className="space-y-3 rounded-card border border-blush bg-card p-4 shadow-soft sm:p-6"
     >
       {place && <input type="hidden" name="id" value={place.id} />}
       {cityId && <input type="hidden" name="city_id" value={cityId} />}
@@ -196,8 +196,8 @@ export default function PlaceForm({
             className={`${inputClass} w-24`}
           />
         </div>
-        <div className="ml-auto">
-          <Button type="submit" size="sm">
+        <div className="ml-auto w-full sm:w-auto">
+          <Button type="submit" size="sm" className="min-h-[44px] w-full">
             {place ? "Сохранить" : "Добавить место"}
           </Button>
         </div>

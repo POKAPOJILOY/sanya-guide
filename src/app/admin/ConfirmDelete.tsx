@@ -22,15 +22,11 @@ export default function ConfirmDelete({
           startTransition(() => deletePlace(id));
         }
       }}
-      className="inline-flex items-center gap-1.5 rounded-full border-2 border-pastel px-3 py-1 text-sm font-semibold text-deep transition-colors hover:border-accent disabled:opacity-50"
+      title={`Удалить «${name}»`}
+      aria-label={`Удалить «${name}»`}
+      className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-pastel bg-card text-deep transition-colors hover:border-accent hover:text-accent disabled:opacity-50"
     >
-      {pending ? (
-        "…"
-      ) : (
-        <>
-          <IconTrash size={14} /> Удалить
-        </>
-      )}
+      {pending ? "…" : <IconTrash size={18} />}
     </button>
   );
 }

@@ -8,6 +8,7 @@ import Button from "@/components/ui/Button";
 import Header from "@/components/ui/Header";
 import {
   CategoryIcon,
+  IconArrowRight,
   IconCrown,
   IconLock,
   IconPencil,
@@ -117,51 +118,68 @@ export default async function AdminPage({
 
         {/* Места Санья */}
         <section className="mt-10">
-          <h2 className="font-display text-xl font-bold">Места (Санья)</h2>
+          <h2 className="font-display text-xl font-bold">
+            Места (Санья)
+            {places?.length ? (
+              <span className="ml-2 rounded-full bg-pastel px-3 py-0.5 align-middle text-sm font-bold text-deep">
+                {places.length}
+              </span>
+            ) : null}
+          </h2>
           <p className="mt-1 text-sm text-muted">
-            Изменить место — кнопка «Править» в его строке (описание, цены,
+            Изменить место — кнопка «Править» в его карточке (описание, цены,
             фото, китайское название, точка на карте).
           </p>
-          <div className="mt-4 space-y-2">
+          <div className="mt-4 space-y-3">
             {places?.map((p) => (
               <div
                 key={p.id}
-                className="flex flex-wrap items-center gap-3 rounded-2xl border border-blush bg-card px-4 py-3 shadow-soft"
+                className="rounded-2xl border border-blush bg-card p-4 shadow-soft"
               >
-                <span className="inline-flex text-deep">
-                  <CategoryIcon id={categoryId(p.category)} size={24} />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p className="truncate font-semibold">{p.name}</p>
-                  <p className="text-xs text-muted">
-                    {categoryLabel(p.category)}
-                  </p>
+                <div className="flex items-center gap-3">
+                  <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-milk text-deep shadow-sm">
+                    <CategoryIcon id={categoryId(p.category)} size={22} />
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate font-semibold">{p.name}</p>
+                    <p className="text-xs text-muted">
+                      {categoryLabel(p.category)}
+                    </p>
+                  </div>
+                  <form action={togglePlaceFree.bind(null, p.id, !p.is_free)}>
+                    <button
+                      type="submit"
+                      className="inline-flex min-h-[44px] items-center transition-transform active:scale-95"
+                      title={p.is_free ? "Сделать платным" : "Сделать бесплатным"}
+                    >
+                      {p.is_free ? (
+                        <Badge>Бесплатно</Badge>
+                      ) : (
+                        <Badge className="bg-blush">
+                          <IconLock size={12} /> Платно
+                        </Badge>
+                      )}
+                    </button>
+                  </form>
                 </div>
-                <form action={togglePlaceFree.bind(null, p.id, !p.is_free)}>
-                  <button
-                    type="submit"
-                    className="transition-transform hover:scale-110"
-                    title={p.is_free ? "Сделать платным" : "Сделать бесплатным"}
+                <div className="mt-3 flex items-center gap-2 border-t border-dashed border-blush pt-3">
+                  <Button
+                    href={`/admin/places/${p.id}`}
+                    size="sm"
+                    className="min-h-[44px] flex-1"
                   >
-                    {p.is_free ? (
-                      <Badge>Бесплатно</Badge>
-                    ) : (
-                      <Badge className="bg-blush">
-                        <IconLock size={12} /> Платно
-                      </Badge>
-                    )}
-                  </button>
-                </form>
-                <Button href={`/admin/places/${p.id}`} size="sm">
-                  <IconPencil size={14} /> Править
-                </Button>
-                <Link
-                  href={`/place/${placeSlug(p)}`}
-                  className="inline-flex items-center gap-1.5 rounded-full border-2 border-pastel px-3 py-1 text-sm font-semibold text-deep transition-colors hover:border-accent"
-                >
-                  Открыть страницу ↗
-                </Link>
-                <ConfirmDelete id={p.id} name={p.name} />
+                    <IconPencil size={14} /> Править
+                  </Button>
+                  <Link
+                    href={`/place/${placeSlug(p)}`}
+                    title="Открыть страницу места"
+                    aria-label={`Открыть страницу «${p.name}»`}
+                    className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-pastel bg-card text-deep transition-colors hover:border-accent"
+                  >
+                    <IconArrowRight size={18} />
+                  </Link>
+                  <ConfirmDelete id={p.id} name={p.name} />
+                </div>
               </div>
             ))}
             {!places?.length && (
@@ -205,7 +223,7 @@ export default async function AdminPage({
             action={addCity}
             className="mt-4 flex flex-wrap items-end gap-3 rounded-card border border-blush bg-card p-4 shadow-soft"
           >
-            <div>
+            <div className="w-full sm:w-auto">
               <label className="mb-1 block text-sm font-semibold">
                 Адрес латиницей
               </label>
@@ -213,10 +231,10 @@ export default async function AdminPage({
                 name="slug"
                 required
                 placeholder="guilin"
-                className="w-40 rounded-2xl border-2 border-pastel bg-card px-4 py-2.5 text-sm font-semibold text-ink outline-none focus:border-accent"
+                className="w-full rounded-2xl border-2 border-pastel bg-card px-4 py-2.5 text-sm font-semibold text-ink outline-none focus:border-accent sm:w-40"
               />
             </div>
-            <div>
+            <div className="w-full sm:w-auto">
               <label className="mb-1 block text-sm font-semibold">
                 Название
               </label>
@@ -224,18 +242,18 @@ export default async function AdminPage({
                 name="name"
                 required
                 placeholder="Гуйлинь"
-                className="w-44 rounded-2xl border-2 border-pastel bg-card px-4 py-2.5 text-sm font-semibold text-ink outline-none focus:border-accent"
+                className="w-full rounded-2xl border-2 border-pastel bg-card px-4 py-2.5 text-sm font-semibold text-ink outline-none focus:border-accent sm:w-44"
               />
             </div>
-            <div>
+            <div className="w-full sm:w-auto">
               <label className="mb-1 block text-sm font-semibold">Эмодзи</label>
               <input
                 name="emoji"
                 placeholder="🏞️"
-                className="w-20 rounded-2xl border-2 border-pastel bg-card px-4 py-2.5 text-sm font-semibold text-ink outline-none focus:border-accent"
+                className="w-full rounded-2xl border-2 border-pastel bg-card px-4 py-2.5 text-sm font-semibold text-ink outline-none focus:border-accent sm:w-24"
               />
             </div>
-            <Button type="submit" size="sm">
+            <Button type="submit" size="sm" className="min-h-[44px] w-full sm:w-auto">
               Добавить город
             </Button>
           </form>
